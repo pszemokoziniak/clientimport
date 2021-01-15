@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\StatusController;
 use Illuminate\Auth\Middleware\Authenticate;
+use Spatie\GoogleCalendar\Event;
 
 
 /*
@@ -38,9 +39,18 @@ Route::post('/editstatus', [StatusController::class, 'updatestatus']);
 
 
 Route::get('/', [ClientController::class, 'list'])->middleware('auth');
+Route::get('/listactive', [ClientController::class, 'listOutstanding'])->middleware('auth');
+
 Route::get('editclient/{id}', [ClientController::class, 'editData'])->middleware('auth');
 Route::post('editclient', [ClientController::class, 'update'])->middleware('auth');
 Route::post('/export-excel', [ClientController::class, 'exportIntoExcel']);
+
+// Route::get('/calendar', function (){
+//     $e = Event::get();
+//     // $e = $e[0];
+//     dd($e);
+
+// });
 
 
 

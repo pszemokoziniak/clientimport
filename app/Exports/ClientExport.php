@@ -42,6 +42,21 @@ class ClientExport implements FromCollection,WithHeadings
         // $start = $this->start_data;
         // dd('test', $start);
 
+        $records = DB::select('
+        SELECT clients.id, clients.nazwa, clients.adresmiasto, clients.kodpocztowy, clients.nrtelefonu, clients.handlowiec, statuses.status, clients.kontakt_data,
+		GROUP_CONCAT(comments.comment ORDER BY comments.comment SEPARATOR " | ") as comment
+        FROM `clients`
+        LEFT JOIN comments ON clients.id = comments.id_client
+        LEFT JOIN statuses ON clients.status = statuses.id
+        WHERE clients.created_at >= "'.$this->start_data.'" AND clients.created_at <= "'.$this->end_data.'"
+        GROUP BY clients.id, clients.nazwa, clients.adresmiasto, clients.kodpocztowy, clients.nrtelefonu, clients.handlowiec, statuses.status, clients.kontakt_data
+        ');
+        $records = json_decode(json_encode($records),true);
+        return collect($records);
+    }
+}
+
+
         // $records = DB::table('clients')
         // ->select('clients.id','clients.nazwa','clients.adresmiasto','clients.kodpocztowy','clients.nrtelefonu','clients.handlowiec','statuses.status','clients.kontakt_data',
         // DB::raw('GROUP_CONCAT(comments.comment ORDER BY comments.comment) as comment'))
@@ -51,18 +66,7 @@ class ClientExport implements FromCollection,WithHeadings
         // ->get()->toArray();
         // return collect($records);
 
-        $records = DB::select('
-        SELECT clients.id, clients.nazwa, clients.adresmiasto, clients.kodpocztowy, clients.nrtelefonu, clients.handlowiec, statuses.status, clients.kontakt_data,
-		GROUP_CONCAT(comments.comment ORDER BY comments.comment SEPARATOR " | ") as comment
-        FROM `clients`
-        LEFT JOIN comments ON clients.id = comments.id_client
-        LEFT JOIN statuses ON clients.status = statuses.id
-        WHERE clients.kontakt_data >= "'.$this->start_data.'" AND clients.kontakt_data <= "'.$this->end_data.'"
-        GROUP BY clients.id, clients.nazwa, clients.adresmiasto, clients.kodpocztowy, clients.nrtelefonu, clients.handlowiec, statuses.status, clients.kontakt_data
-        ');
-            $records = json_decode(json_encode($records),true);
         // return $records;
         //return Client::all();
-            return collect($records);
-    }
-}
+
+

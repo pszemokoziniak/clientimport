@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\DB;
 use App\Exports\ClientExport;
 
 
-
 class ClientController extends Controller
 {
     public function importForm() 
@@ -33,9 +32,24 @@ class ClientController extends Controller
         $data = DB::table('clients')
         ->select('clients.*','statuses.status')
         ->join('statuses','clients.status','statuses.id')
+        ->where('clients.status','1')
         ->get();
 
         return view('listclient',["data"=>$data]);
+    }
+
+    function listOutstanding() {
+        // $data = Client::all();
+        $data = DB::table('clients')
+        ->select('clients.*','statuses.status')
+        ->join('statuses','clients.status','statuses.id')
+        ->where('clients.status','2')
+        ->orwhere('clients.status','5')
+        ->orwhere('clients.status','6')
+        ->orderBy('kontakt_data','ASC')
+        ->get();
+
+        return view('listclientactive',["data"=>$data]);
     }
 
     function editData($id) {
@@ -77,7 +91,7 @@ class ClientController extends Controller
     }
 
     function exportIntoExcel(Request $req){
-        return Excel::download(new ClientExport($req->start_data,$req->end_data), 'clientlist.xlsx');
+        return Excel::download(new ClientExport($req->start_data,$req->end_data), 'Kontakty_Przemyslaw_Kozinski.xlsx');
         // return redirect('/');
     }
 }

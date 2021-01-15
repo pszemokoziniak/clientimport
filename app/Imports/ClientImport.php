@@ -17,14 +17,13 @@ class ClientImport implements ToModel,WithHeadingRow
     {
         $date = date('Y-m-d');
         return new Client([
-
             'nazwa' => $row['nazwa'],
             'adresmiasto' => $row['adresmiasto'],
             'kodpocztowy' => $row['kodpocztowy'],
             'nrtelefonu' => $row['nrtelefonu'],
             'handlowiec' => $row['handlowiec'],
             'status' => '1',
-            'kontakt_data' => $date,
+            'kontakt_data' => $date
 
         ]);
     }
