@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\StatusController;
+use App\Http\Controllers\MeetingController;
+
 use Illuminate\Auth\Middleware\Authenticate;
 use Spatie\GoogleCalendar\Event;
 
@@ -44,6 +46,14 @@ Route::get('/listactive', [ClientController::class, 'listOutstanding'])->middlew
 Route::get('editclient/{id}', [ClientController::class, 'editData'])->middleware('auth');
 Route::post('editclient', [ClientController::class, 'update'])->middleware('auth');
 Route::post('/export-excel', [ClientController::class, 'exportIntoExcel']);
+
+Route::get('/setNieobiera/{id}', [ClientController::class, 'nieOdbiera'])->middleware('auth');
+
+Route::get('/spotkanie/{id}', [MeetingController::class, 'form'])->middleware('auth');
+Route::post('/spotkanie', [MeetingController::class, 'insert']);
+
+
+
 
 // Route::get('/calendar', function (){
 //     $e = Event::get();

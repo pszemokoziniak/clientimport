@@ -11,7 +11,7 @@ class Client extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nazwa','adresmiasto','kodpocztowy','nrtelefonu','handlowiec','status','kontakt_data'];
+    protected $fillable = ['nip_pesel','nazwa','adresmiasto','kodpocztowy','miejscowosc','nrtelefonu','handlowiec','status','kontakt_data'];
 
 }
 
