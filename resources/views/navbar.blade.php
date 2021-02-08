@@ -63,18 +63,22 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    <a id="len1" class="nav-link" href="/">Nowe<span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/listactive">Kontakty</a>
+                    <a id="len2" class="nav-link" href="/klienciAktywni">Klienci</a>
                 </li>
+                <li class="nav-item">
+                    <a id="len3" class="nav-link" href="/raport">Raport</a>
+                </li>
+
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    <a id="len4" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Edit
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/liststatus">Dodaj Status</a>
+                        <a class="dropdown-item" href="/statusList">Dodaj Status</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="import-form">Wgraj Kontakty</a>
                         <!-- <a class="dropdown-item" href="#">Something else here</a> -->
@@ -91,3 +95,27 @@
         </div>
     </nav>
 </header>
+
+
+<script type="text/javascript">
+
+
+    $(function() {
+        var str = '#len'; //increment by 1 up to 1-nelemnts
+        $(document).ready(function() {
+            var i, stop;
+            i = 1;
+            stop = 4; //num elements
+            setInterval(function() {
+                if (i > stop) {
+                    return;
+                }
+                $('#len' + (i++)).toggleClass('bounce');
+            }, 500)
+
+            $('li.active').removeClass('active');
+            $('a[href="' + location.pathname + '"]').closest('li').addClass('active');
+
+        });
+    });
+</script>

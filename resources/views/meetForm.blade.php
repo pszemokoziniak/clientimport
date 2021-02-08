@@ -80,6 +80,7 @@
 <script>
 $(document).ready(function() {
     $("#save").click(function() {
+        event.preventDefault();
         $('input:disabled').removeAttr('disabled');
         $('select:disabled').removeAttr('disabled');
 

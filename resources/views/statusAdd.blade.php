@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-<form action="addstatus" method="POST">
+<form action="statusAdd" method="POST">
 @csrf
     <fieldset>
         <legend>Status Kontaku</legend>

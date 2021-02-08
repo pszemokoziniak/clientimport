@@ -6,6 +6,8 @@ use App\Models\Client;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
+use Auth;
+
 class ClientImport implements ToModel,WithHeadingRow
 {
     /**
@@ -23,9 +25,10 @@ class ClientImport implements ToModel,WithHeadingRow
             'kodpocztowy' => $row['kodpocztowy'],
             'miejscowosc' => $row['miejscowosc'],
             'nrtelefonu' => $row['nrtelefonu'],
-            'handlowiec' => $row['handlowiec'],
+            'handlowiec' =>  Auth::id(),
             'status' => '1',
-            'kontakt_data' => $date
+            'kontakt_data' => $date,
+            'nieObiera' => '0'
 
         ]);
     }

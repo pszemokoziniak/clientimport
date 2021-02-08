@@ -22,11 +22,11 @@
             @foreach($data as $item)
 
             @if ($item['status'] === 2) 
-                <tr style="cursor:pointer; background-color:#98FB98;" onclick="javascript:location.href='editclient/{{$item['id']}}'">
+                <tr style="cursor:pointer; background-color:#98FB98;" onclick="javascript:location.href='klient/{{$item['id']}}'">
             @elseif ($item['nieObiera'] === 1)
-                <tr style="cursor:pointer; background-color:#FF7F50;" onclick="javascript:location.href='editclient/{{$item['id']}}'">
+                <tr style="cursor:pointer; background-color:#FF7F50;" onclick="javascript:location.href='klient/{{$item['id']}}'">
             @else
-                <tr style="cursor:pointer" onclick="javascript:location.href='editclient/{{$item['id']}}'">
+                <tr style="cursor:pointer" onclick="javascript:location.href='klient/{{$item['id']}}'">
             @endif
 
                 <td>{{$item['nazwa']}}</td>

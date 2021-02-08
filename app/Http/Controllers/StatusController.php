@@ -8,34 +8,34 @@ use App\Models\Status;
 class StatusController extends Controller
 {
     function index() {
-        return view('addstatus');
+        return view('statusAdd');
     }
 
     function addStatus(Request $req){
         $status = new Status;
         $status->status=$req->status;
         $status->save();
-        return redirect("liststatus");
+        return redirect("statusList");
     }
 
     function list() {
         $data = Status::all();
-        return view('liststatus',["data"=>$data]);
+        return view('statusList',["data"=>$data]);
     }
     function delete($id) {
         $data = Status::find($id);
         $data->delete();
-        return redirect('liststatus');
+        return redirect('statusList');
     }
     function editstatus($id){
         $data=Status::find($id);
-        return view('editstatus',['data'=>$data]);
+        return view('statusEdit',['data'=>$data]);
     }
     function updatestatus(Request $req){
         $data=Status::find($req->id);
         $data->status=$req->status;
         $data->save();
-        return redirect('liststatus');
+        return redirect('statusList');
     }
 
 }

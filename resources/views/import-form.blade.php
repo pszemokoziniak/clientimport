@@ -1,15 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Import</title>
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-</head>
-<body>
+@extends('layouts.app')
 
+
+@section('content')
     <section style="padding-top:60px">
+
         <div class="container">
+        <a href="javascript:history.back()" class="btn btn-secondary btn-block my-3">Cofnij</a>
+        
+
             <div class="row">
                 <dic class="col-md-6 offset-md-3">
                     <div class="card">
@@ -32,5 +30,4 @@
         </div>
     </section>
     
-</body>
-</html>
+@endsection

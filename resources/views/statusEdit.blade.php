@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-<form action="/editstatus" method="POST">
+<form action="/statusEdit" method="POST">
 @csrf
 <input type="hidden" name="id" value="{{$data['id']}}">
     <fieldset>

@@ -7,6 +7,8 @@ use App\Models\Status;
 use App\Models\Comment;
 use App\Models\Call;
 use App\Models\Meeting;
+use App\Models\User;
+
 
 
 use Illuminate\Http\Request;
@@ -14,6 +16,8 @@ use App\Imports\ClientImport;
 use Excel;
 use Illuminate\Support\Facades\DB;
 use App\Exports\ClientExport;
+use Auth;
+
 
 
 class ClientController extends Controller
@@ -30,17 +34,6 @@ class ClientController extends Controller
     }
 
     function list() {
-        // $data = Client::all();
-        // $data = DB::table('clients')
-        // ->select('clients.*','statuses.status', DB::raw('count(calls.id_client) AS count'))
-        // ->join('statuses','clients.status','statuses.id')
-        // ->leftJoin('calls', 'clients.id', '=', 'calls.id_client')
-        // ->where('clients.status','1')
-        // ->groupBy('clients.clients.id','clients.clients.nip_pesel','clients.clients.nazwa','clients.clients.adresmiasto',
-        // 'clients.clients.kodpocztowy','clients.clients.miejscowosc','clients.clients.nrtelefonu',
-        // 'clients.clients.handlowiec','clients.clients.status','clients.clients.kontakt_data','clients.clients.created_at',
-        // 'clients.clients.created_at','clients.clients.updated_at','clients.clients.nieObiera','clients.statuses.status')
-        // ->get();
 
         $data = DB::select('
         SELECT clients.*, statuses.status AS nameStatus, (SELECT count(id_client) from calls
@@ -48,16 +41,13 @@ class ClientController extends Controller
         FROM `clients`
         LEFT JOIN calls ON clients.id = calls.id_client
         LEFT JOIN statuses ON clients.status = statuses.id
-        WHERE clients.status = 1
+        WHERE clients.status = 1 AND clients.handlowiec = \''.Auth::id().'\'
         GROUP BY clients.id, clients.nip_pesel, clients.nazwa, clients.adresmiasto, clients.kodpocztowy, clients.miejscowosc, clients.nrtelefonu, 
         clients.handlowiec, statuses.status, clients.kontakt_data,clients.clients.status,clients.clients.created_at,clients.clients.updated_at,clients.clients.nieObiera
         ORDER BY clients.kontakt_data ASC
         ');
         $data = json_decode(json_encode($data),true);
-        // $data = collect($data);
-        // dd($data);
-        // die();
-        return view('listclient',["data"=>$data]);
+        return view('clientList',["data"=>$data]);
     }
 
     function listOutstanding() {
@@ -76,14 +66,14 @@ class ClientController extends Controller
         FROM `clients`
         LEFT JOIN calls ON clients.id = calls.id_client
         LEFT JOIN statuses ON clients.status = statuses.id
-        WHERE clients.status = 2 OR clients.status = 5 OR clients.status = 6
+        WHERE (clients.status = 2 OR clients.status = 5 OR clients.status = 6) AND clients.handlowiec = \''.Auth::id().'\'
         GROUP BY clients.id, clients.nip_pesel, clients.nazwa, clients.adresmiasto, clients.kodpocztowy, clients.miejscowosc, clients.nrtelefonu, 
         clients.handlowiec, statuses.status, clients.kontakt_data,clients.clients.status,clients.clients.created_at,clients.clients.updated_at,clients.clients.nieObiera
         ORDER BY clients.kontakt_data ASC
         ');
         $data = json_decode(json_encode($data),true);
 
-        return view('listclientactive',["data"=>$data]);
+        return view('clientListActive',["data"=>$data]);
     }
 
     function editData($id) {
@@ -109,7 +99,10 @@ class ClientController extends Controller
         ->latest()
         ->get();
 
-        return view('editclient', compact('data','statuses','comments', 'count', 'lasts', 'meetCount'));
+        $users = User::query()->get();
+
+
+        return view('clientEdit', compact('data','statuses','comments', 'count', 'lasts', 'meetCount', 'users'));
     }
 
 
@@ -125,8 +118,8 @@ class ClientController extends Controller
         $data->kodpocztowy=$req->kodpocztowy;
         $data->miejscowosc=$req->miejscowosc;
         $data->nrtelefonu=$req->nrtelefonu;
-        $data->handlowiec=$req->handlowiec;
         $data->status=$req->status;
+        $data->handlowiec=$req->handlowiec;
         $data->kontakt_data=$req->kontakt_data;
         $data->nieObiera='0';
         $data->save();
@@ -140,10 +133,12 @@ class ClientController extends Controller
 
         $call = new Call;
         $call->id_client = $req->id;
+        $call->id_user = $req->handlowiec;
+
         $call->save();
 
-        if (session()->get('massage')=='listactive') {
-            return redirect('/listactive');
+        if (session()->get('massage')=='klienciAktywni') {
+            return redirect('/klienciAktywni');
         } else {
             return redirect('/');    
         }
@@ -161,14 +156,14 @@ class ClientController extends Controller
 
         $call = new Call;
         $call->id_client=$id;
+        $call->id_user = $data->handlowiec;
         $call->save();
 
         if ($data->status===1 ) {
             return redirect('/');
         } else {
-            return redirect('/listactive');    
+            return redirect('/klienciAktywni');    
         }
     }
 
-    // function addCalls($id) 
 }
