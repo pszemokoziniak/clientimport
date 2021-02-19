@@ -18,12 +18,26 @@
         @endif
     @endif
 
-    <form action="/klient" method="post" id="formEdit">
+    <a type="button" class="btn btn-success w-25 my-3" href={{"/klientKalulator"}}>Kalkulator</a>
+
+
+    <form action="/klient" method="post" id="form">
         @csrf
         <input type="hidden" name="id" value="{{$data['id']}}">
 
 
         <div class="jumbotron">
+
+            @if ($errors->any())
+                <div class="alert-danger w-50 lead">Formularz nie zapisany</div>
+
+                @foreach ($errors->all() as $error)
+                <div class="alert-danger w-50 lead">{{$error}}</div>
+                @endforeach
+                <br />
+            @endif
+
+
             <h1 class="display-5">Dane Klienta</h1>
             <h5 class="display-5">Wykonane telefony: {{$count}} 
                 @foreach($lasts as $last)
@@ -47,33 +61,114 @@
 
                 @endforeach
             
-            <!-- <hr class="my-4"> -->
-            <p class="lead"><span style="width:150px; display:inline-block;">Nazwa</span> <input class="w-75"
-                    type="text" name="nazwa" value="{{$data['nazwa']}}" disabled></p>
-            <p class="lead"><span style="width:150px; display:inline-block;">Adres</span> <input class="w-50"
-                    type="text" disabled name="adresmiasto" value="{{$data['adresmiasto']}}" disabled> <input
-                    type="text" name="kodpocztowy" value="{{$data['kodpocztowy']}}" disabled></p>
-            <p class="lead"><span style="width:150px; display:inline-block;">Miejscowość</span> <input class="w-50"
-                    type="text" disabled name="miejscowosc" value="{{$data['miejscowosc']}}" disabled></p>
-            <p class="lead"><span style="width:150px; display:inline-block;">Numer Tel.</span> <input type="text"
-                    name="nrtelefonu" value="{{phone($data['nrtelefonu'], 'PL')->formatNational()}}" disabled>
-                Status <select name="status" disabled>
-                    @foreach($statuses as $status)
-                    <option value="{{$status['id']}}" {{$data->status == $status->id ? 'selected' : '' }}>
-                        {{$status['status']}}</option>
-                    @endforeach
-                </select>
-                Data Kontaktu <input type="date" name="kontakt_data" value="{{$data['kontakt_data']}}" disabled>
-            </p>
-            <!-- <p class="lead"><span style="width:150px; display:inline-block;">Handlowiec</span> <input type="text"
-                    name="handlowiec" value="{{RaportController::nameUser($data['handlowiec'])}}" disabled></p> -->
-            <p class="lead"><span style="width:150px; display:inline-block;">Handlowiec</span>         
-                <select name="handlowiec" disabled>
+            <div class="col-md form-group row">
+                <div class="col">
+                    <label for="nazwa" class="lead">Nazwa</label>
+                    <input class="w-100 form-control" type="text" name="nazwa" value="{{$data['nazwa']}}" disabled>
+                        @error('nazwa')
+                        <div class="alert-danger">{{$message}}</div>
+                        @enderror
+                </div>
+                <div class="col">
+                    <label for="nip" class="lead">NIP</label>
+                    <input class="w-50 form-control" type="text" name="nip" value="{{$data['nip']}}" disabled>
+                        @error('nip')
+                        <div class="alert-danger">{{$message}}</div>
+                        @enderror
+                </div>
+            </div>
+
+            <div class="col-md form-group">
+                <label for="adresmiasto" class="lead">Adres</label>
+                <input class="w-75 form-control" type="text" name="adresmiasto" value="{{$data['adresmiasto']}}" disabled>
+                    @error('adresmiasto')
+                    <div class="alert-danger">{{$message}}</div>
+                    @enderror
+            </div>
+
+
+            <div class="col-md form-group row">
+                <div class="col">
+                    <label for="miejscowosc" class="lead">Miejscowość</label>
+                    <input class="w-100 form-control" type="text" name="miejscowosc" value="{{$data['miejscowosc']}}" disabled>
+                        @error('miejscowosc')
+                        <div class="alert-danger">{{$message}}</div>
+                        @enderror
+                </div>
+
+                <div class="col">
+                    <label for="kodpocztowy" class="lead">Kod Pocztowy</label>
+                    <input class="w-50 form-control" type="text" name="kodpocztowy" value="{{$data['kodpocztowy']}}" disabled>
+                        @error('kodpocztowy')
+                        <div class="alert-danger">{{$message}}</div>
+                        @enderror
+                </div>
+            </div>
+
+            <div class="col-md form-group row">
+                <div class="col">
+                    <label for="nrtelefonu" class="lead">Numer Tel.</label>
+                    <input id="nrtelefonu" class="w-75 form-control" type="text" name="nrtelefonu" value="{{phone($data['nrtelefonu'], 'PL')->formatNational()}}" disabled>
+                        @error('nrtelefonu')
+                        <div class="alert-danger w-75">{{$message}}</div>
+                        @enderror
+                </div>
+
+                <div class="col">
+                    <label for="email" class="lead">Email</label>
+                    <input class="w-75 form-control" type="text" name="email" value="{{$data['email']}}" disabled>
+                        @error('email')
+                        <div class="alert-danger w-75">{{$message}}</div>
+                        @enderror
+                </div>
+            </div>
+
+            <div class="col-md form-group row">
+                <div class="col">
+                    <label for="status" class="lead">Status</label>
+                    <select class="w-75 form-control" name="status" disabled>
+                        @foreach($statuses as $status)
+                        <option value="{{$status['id']}}" {{$data->status == $status->id ? 'selected' : '' }}>
+                            {{$status['status']}}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('status')
+                    <div class="alert-danger w-25">{{$message}}</div>
+                    @enderror
+                </div>
+
+                <div class="col">
+                    <label for="kontakt_data" class="lead">Data Kontaktu</label>
+                    <input class="w-50 form-control" type="date" name="kontakt_data" value="{{$data['kontakt_data']}}" disabled>
+                        @error('kontakt_data')
+                        <div class="alert-danger w-50">{{$message}}</div>
+                        @enderror
+                </div>
+
+                <div class="col">
+                    <label for="kontakt_data" class="lead">Godzina Kontaktu</label>
+                    <input class="w-50 form-control" type="time" name="kontakt_godzina" value="{{$data['kontakt_godzina']}}" disabled>
+                        @error('kontakt_godzina')
+                        <div class="alert-danger w-50">{{$message}}</div>
+                        @enderror
+                </div>
+
+            </div>
+
+            <div class="col-md form-group">
+                <label for="hanlowiec" class="lead">Handlowiec</label>
+                <select class="w-25 form-control" name="handlowiec" disabled>
                     @foreach($users as $user)
-                    <option value="{{$user['id']}}" {{$data->handlowiec == $user->id ? 'selected' : '' }}>
-                        {{$user['name']}}</option>
+                        <option value="{{$user['id']}}" {{$data->handlowiec == $user->id ? 'selected' : '' }}>
+                            {{$user['name']}}
+                        </option>
                     @endforeach
                 </select>
+                    @error('handlowiec')
+                    <div class="alert-danger w-25">{{$message}}</div>
+                    @enderror
+            </div>
 
             <hr class="my-4">
 
@@ -83,8 +178,6 @@
             </div>
             <button type="button" id="save" class="btn btn-success btn-block">Zapisz</button>
         </div>
-
-
     </form>
 </div>
 @endsection
@@ -98,12 +191,26 @@ $(document).ready(function() {
         $('input:disabled').removeAttr('disabled');
         $('select:disabled').removeAttr('disabled');
 
-        $("#formEdit").submit();
+        const trim = async () => {
+            $("#nrtelefonu").val($("#nrtelefonu").val().replace(/\s/g, ""));
+        }
+
+        const save = async () => {
+            const saveend = await trim ()
+            await $("#form").submit();
+        }
+
+        save();
+
     });
+
+
+
     $("#unblock").click(function() {
         $('input:disabled').removeAttr('disabled');
         $('select:disabled').removeAttr('disabled');
     });
 
 });
+
 </script>

@@ -46,6 +46,11 @@ Route::get('/klienciAktywni', [ClientController::class, 'listOutstanding'])->mid
 
 Route::get('klient/{id}', [ClientController::class, 'editData'])->middleware('auth');
 Route::post('klient', [ClientController::class, 'update'])->middleware('auth');
+Route::get('/klientForm', [ClientController::class, 'form'])->middleware('auth');
+Route::post('/klientForm', [ClientController::class, 'insert'])->middleware('auth');
+Route::get('/klientKalulator', [ClientController::class, 'kalkulator'])->middleware('auth');
+
+
 
 Route::post('/export-excel', [ClientController::class, 'exportIntoExcel']);
 
@@ -58,6 +63,8 @@ Route::post('/spotkanie/edit', [MeetingController::class, 'update'])->middleware
 
 Route::get('/raport', [RaportController::class, 'userCallsDate'])->middleware('auth');
 Route::post('/raport', [RaportController::class, 'userCallsDate'])->middleware('auth');
+
+
 
 
 

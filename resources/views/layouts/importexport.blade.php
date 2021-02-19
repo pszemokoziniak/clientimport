@@ -13,5 +13,7 @@
         </div>
         <button type="submit" id="" class="btn btn-primary btn-block">Eksport do Excel</button>
         <a type="button" href="/import-form" class="btn btn-success btn-block">Import z Excel</a>
+        <a type="button" href="/klientForm" class="btn btn-warning btn-block">Wprowadź Klienta</a>
+
     </fieldset>
 </form>

@@ -12,11 +12,15 @@ use App\Models\User;
 
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ShareFormRequest;
+
 use App\Imports\ClientImport;
 use Excel;
 use Illuminate\Support\Facades\DB;
 use App\Exports\ClientExport;
 use Auth;
+use DateTime;
+
 
 
 
@@ -43,7 +47,7 @@ class ClientController extends Controller
         LEFT JOIN statuses ON clients.status = statuses.id
         WHERE clients.status = 1 AND clients.handlowiec = \''.Auth::id().'\'
         GROUP BY clients.id, clients.nip_pesel, clients.nazwa, clients.adresmiasto, clients.kodpocztowy, clients.miejscowosc, clients.nrtelefonu, 
-        clients.handlowiec, statuses.status, clients.kontakt_data,clients.clients.status,clients.clients.created_at,clients.clients.updated_at,clients.clients.nieObiera
+        clients.handlowiec, statuses.status, clients.kontakt_data,clients.clients.status,clients.clients.created_at,clients.clients.updated_at,clients.clients.nieObiera,clients.clients.email,clients.clients.nip
         ORDER BY clients.kontakt_data ASC
         ');
         $data = json_decode(json_encode($data),true);
@@ -51,15 +55,7 @@ class ClientController extends Controller
     }
 
     function listOutstanding() {
-        // $data = Client::all();
-        // $data = DB::table('clients')
-        // ->select('clients.*','statuses.status')
-        // ->join('statuses','clients.status AS nameStatus','statuses.id')
-        // ->where('clients.status','2')
-        // ->orwhere('clients.status','5')
-        // ->orwhere('clients.status','6')
-        // ->orderBy('kontakt_data','ASC')
-        // ->get();
+
         $data = DB::select('
         SELECT clients.*, statuses.status AS nameStatus, (SELECT count(id_client) from calls
         WHERE clients.id = calls.id_client) AS countCalls
@@ -68,7 +64,7 @@ class ClientController extends Controller
         LEFT JOIN statuses ON clients.status = statuses.id
         WHERE (clients.status = 2 OR clients.status = 5 OR clients.status = 6) AND clients.handlowiec = \''.Auth::id().'\'
         GROUP BY clients.id, clients.nip_pesel, clients.nazwa, clients.adresmiasto, clients.kodpocztowy, clients.miejscowosc, clients.nrtelefonu, 
-        clients.handlowiec, statuses.status, clients.kontakt_data,clients.clients.status,clients.clients.created_at,clients.clients.updated_at,clients.clients.nieObiera
+        clients.handlowiec, statuses.status, clients.kontakt_data,clients.clients.status,clients.clients.created_at,clients.clients.updated_at,clients.clients.nieObiera,clients.clients.email,clients.clients.nip
         ORDER BY clients.kontakt_data ASC
         ');
         $data = json_decode(json_encode($data),true);
@@ -106,22 +102,22 @@ class ClientController extends Controller
     }
 
 
-    function update(Request $req) {
-
-        // $req->validate([
-        //     'adresmiasto'=>'require',
-        //     'nrtelefonu'=>'require'
-        // ]);
+    function update(ShareFormRequest $req) {
 
         $data = Client::find($req->id);
         $data->adresmiasto=$req->adresmiasto;
-        $data->kodpocztowy=$req->kodpocztowy;
+        $data->kodpocztowy=!empty($req->kodpocztowy) ?  $req->kodpocztowy : '';
         $data->miejscowosc=$req->miejscowosc;
         $data->nrtelefonu=$req->nrtelefonu;
         $data->status=$req->status;
         $data->handlowiec=$req->handlowiec;
         $data->kontakt_data=$req->kontakt_data;
         $data->nieObiera='0';
+        $data->email=$req->email;
+        $data->nip=$req->nip;
+        $data->kontakt_godzina=$req->kontakt_godzina;
+
+
         $data->save();
         
         if ($req->comment) {
@@ -164,6 +160,50 @@ class ClientController extends Controller
         } else {
             return redirect('/klienciAktywni');    
         }
+    }
+
+    function form() {
+
+        $statuses = Status::all();
+        $users = User::all();
+
+        return view('clientInput', compact('statuses', 'users'));
+    }
+
+
+    function insert(ShareFormRequest $req) {
+
+        $today = new DateTime('NOW');
+        $today = $today->format('Y-m-d');
+
+        $data = new Client;
+        $data->nazwa=$req->nazwa;
+        $data->adresmiasto=$req->adresmiasto;
+        $data->kodpocztowy= !empty($req->kodpocztowy) ?  $req->kodpocztowy : '';
+        $data->miejscowosc=$req->miejscowosc;
+        $data->nrtelefonu=$req->nrtelefonu;
+        $data->status=1;
+        $data->handlowiec=$req->handlowiec;
+        $data->kontakt_data=$today;
+        $data->nieObiera='0';
+        $data->email=$req->email;
+        $data->nip=$req->nip;
+
+        $data->save();
+        $data->id;
+        
+        if ($req->comment) {
+            $comment = new Comment;
+            $comment->id_client = $data->id;
+            $comment->comment = $req->comment;
+            $comment->save();
+        }
+
+        return redirect('/klient/'.$data->id);  
+    }
+
+    function kalkulator() {
+        return view('clientKalkulator');  
     }
 
 }
