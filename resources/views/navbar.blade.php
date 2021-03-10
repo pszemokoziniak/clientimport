@@ -71,9 +71,13 @@
                 <li class="nav-item">
                     <a id="len3" class="nav-link" href="/raport">Raport</a>
                 </li>
+                <li class="nav-item">
+                    <a id="len4" class="nav-link" href="/cennik">Cennik</a>
+                </li>
+
 
                 <li class="nav-item dropdown">
-                    <a id="len4" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                    <a id="len5" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Edit
                     </a>
@@ -105,7 +109,7 @@
         $(document).ready(function() {
             var i, stop;
             i = 1;
-            stop = 4; //num elements
+            stop = 5; //num elements
             setInterval(function() {
                 if (i > stop) {
                     return;

@@ -24,8 +24,8 @@ class ShareFormRequest extends FormRequest
      */
     public function rules()
     {
-        $req = $this->all();
-        $req['nrtelefonu'] = str_replace(' ', '', $req['nrtelefonu']);
+        // $req = $this->all();
+        // $req['nrtelefonu'] = str_replace(' ', '', $req['nrtelefonu']);
         // $this->replace($req);
         // $req = array_map('trim', $this->all());
         // $nrtelefonu = $req['nrtelefonu'];
@@ -34,7 +34,7 @@ class ShareFormRequest extends FormRequest
         return [
             'nazwa'=>'required',
             'email'=> 'email|nullable',
-            'nrtelefonu'=>'min:9|max:9|required|numeric',
+            'nrtelefonu'=>'min:9|max:9|required',
             'handlowiec' => 'numeric'
         ];
     }

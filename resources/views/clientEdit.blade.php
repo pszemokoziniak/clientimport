@@ -6,6 +6,7 @@
 
 
 @section('content')
+
 <div class="container">
 
     <a type="button" class="btn btn-success w-25 my-3" href={{"/setNieobiera/".$data['id']}}>Nie Odbiera</a>
@@ -18,7 +19,7 @@
         @endif
     @endif
 
-    <a type="button" class="btn btn-success w-25 my-3" href={{"/klientKalulator"}}>Kalkulator</a>
+    <a type="button" class="btn btn-success w-25 my-3" href={{"/kalkulator/".$data['id']}}>Kalkulator</a>
 
 
     <form action="/klient" method="post" id="form">

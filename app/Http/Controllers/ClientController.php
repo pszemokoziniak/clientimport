@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\DB;
 use App\Exports\ClientExport;
 use Auth;
 use DateTime;
+use Illuminate\Support\Facades\Session;
+
 
 
 
@@ -131,6 +133,8 @@ class ClientController extends Controller
         $call->id_client = $req->id;
         $call->id_user = $req->handlowiec;
 
+        Session::flash('saveform', 'Zapisano');
+
         $call->save();
 
         if (session()->get('massage')=='klienciAktywni') {
@@ -167,7 +171,7 @@ class ClientController extends Controller
         $statuses = Status::all();
         $users = User::all();
 
-        return view('clientInput', compact('statuses', 'users'));
+        return view('clientForm', compact('statuses', 'users'));
     }
 
 
@@ -199,11 +203,8 @@ class ClientController extends Controller
             $comment->save();
         }
 
+        Session::flash('saveform', 'Zapisano');
+
         return redirect('/klient/'.$data->id);  
     }
-
-    function kalkulator() {
-        return view('clientKalkulator');  
-    }
-
 }

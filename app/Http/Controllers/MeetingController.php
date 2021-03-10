@@ -10,8 +10,7 @@ use App\Models\Meeting;
 use App\Models\CommentSpotkania;
 use App\Models\Client;
 
-
-
+use Illuminate\Support\Facades\Session;
 
 class MeetingController extends Controller
 {
@@ -47,7 +46,8 @@ class MeetingController extends Controller
 
             $comment->save();
         }
-
+        
+        Session::flash('saveform', 'Zapisano');
 
         return redirect('/klient/'.$req->id_client);    
 

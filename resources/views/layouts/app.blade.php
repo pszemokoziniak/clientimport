@@ -16,6 +16,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
+    <script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
+
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -28,6 +30,17 @@
 </head>
 
 <body>
+    @if(Session::has('saveform'))
+    <script>
+        swal("Dobra Robota", "Formularz Zapisany", "success");
+    </script>
+    @endif
+    @if(Session::has('sendMail'))
+    <script>
+        swal("Dobra Robota", "Email Wysłany", "success");
+    </script>
+    @endif
+
     <div id="app">
 
             @include('navbar')

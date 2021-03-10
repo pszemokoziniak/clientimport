@@ -5,7 +5,12 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\StatusController;
 use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\RaportController;
+use App\Http\Controllers\KalkulatorController;
+use App\Http\Controllers\CennikController;
+use App\Http\Controllers\OfertaController;
 
+use App\Mail\OfertaMail;
+use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Auth\Middleware\Authenticate;
 use Spatie\GoogleCalendar\Event;
@@ -48,7 +53,9 @@ Route::get('klient/{id}', [ClientController::class, 'editData'])->middleware('au
 Route::post('klient', [ClientController::class, 'update'])->middleware('auth');
 Route::get('/klientForm', [ClientController::class, 'form'])->middleware('auth');
 Route::post('/klientForm', [ClientController::class, 'insert'])->middleware('auth');
-Route::get('/klientKalulator', [ClientController::class, 'kalkulator'])->middleware('auth');
+
+Route::get('/kalkulator/{id}', [KalkulatorController::class, 'kalkulator'])->middleware('auth');
+Route::post('/kalkulator', [KalkulatorController::class, 'insert'])->middleware('auth');
 
 
 
@@ -64,11 +71,20 @@ Route::post('/spotkanie/edit', [MeetingController::class, 'update'])->middleware
 Route::get('/raport', [RaportController::class, 'userCallsDate'])->middleware('auth');
 Route::post('/raport', [RaportController::class, 'userCallsDate'])->middleware('auth');
 
+// Route::get('/cennikForm', [CennikController::class, 'form'])->middleware('auth');
+
+Route::get('/cennik', [CennikController::class, 'list'])->middleware('auth');
+Route::post('/cennik', [CennikController::class, 'insert'])->middleware('auth');
+
+Route::get('/oferta/{id}', [OfertaController::class, 'clientList'])->middleware('auth');
+Route::post('/oferta', [OfertaController::class, 'store'])->middleware('auth');
 
 
 
-
-
+// Route::get('/email', function () {
+//     Mail:: to('email@email.com')->send(new OfertaMail());
+//     return new OfertaMail();
+// });
 
 
 
