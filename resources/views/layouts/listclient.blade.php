@@ -1,3 +1,5 @@
+@include('clientSearch')
+
 <div class="container">
     
     <!-- <a href="{{url('export-excel')}}" class="btn btn-primary btn-block">Eksport do Excel</a> -->

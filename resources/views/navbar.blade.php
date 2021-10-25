@@ -62,19 +62,37 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <!-- <li class="nav-item active">
                     <a id="len1" class="nav-link" href="/">Nowe<span class="sr-only">(current)</span></a>
+                </li> -->
+
+                <li class="nav-item dropdown">
+                    <a id="len5" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Klienci
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a id="len1" class="dropdown-item" href="/">Klienci Nowi<span class="sr-only">(current)</span></a>
+                        <a class="dropdown-item" href="/klienciAktywni">Klienci Aktywni</a>
+                        <a class="dropdown-item" href="/klienciNieAktywni">Klienci Archiwum</a>
+                    </div>
                 </li>
-                <li class="nav-item">
+
+                <!-- <li class="nav-item">
                     <a id="len2" class="nav-link" href="/klienciAktywni">Klienci</a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a id="len3" class="nav-link" href="/raport">Raport</a>
                 </li>
                 <li class="nav-item">
+                    <a id="len3" class="nav-link" href="/klienciAll">Wszyscy</a>
+                </li>
+                <li class="nav-item">
                     <a id="len4" class="nav-link" href="/cennik">Cennik</a>
                 </li>
-
+                <li class="nav-item">
+                    <a id="len4" class="nav-link" href="/userList">Użytkownicy</a>
+                </li>
 
                 <li class="nav-item dropdown">
                     <a id="len5" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -82,19 +100,34 @@
                         Edit
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/statusList">Dodaj Status</a>
+                        <a class="dropdown-item" href="/statusList">Status Rozmowy</a>
+                        <a class="dropdown-item" href="/sourceList">Źródło</a>
+                        <a class="dropdown-item" href="/statutesFotoList">Status Foto</a>
+                        <a class="dropdown-item" href="/dostawcaPradList">Dostawca Prąd</a>
+                        <a class="dropdown-item" href="/taryfaPradList">Taryfe Prąd</a>
+                        <a class="dropdown-item" href="/dystrybucjaPradList">Dystrybucja Prąd</a>
+                        <a class="dropdown-item" href="/kampaniaPradList">Kampania Prąd</a>
+                        <a class="dropdown-item" href="/statusOfertaPradList">Status Prąd</a>
+                        <a class="dropdown-item" href="/ClientBranzaList">Branża Klient</a>
+
+
+
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="import-form">Wgraj Kontakty</a>
                         <!-- <a class="dropdown-item" href="#">Something else here</a> -->
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a id="len4" class="nav-link" href="/log">Log</a>
+                </li>
+
                 <!-- <li class="nav-item">
         <a class="nav-link disabled" href="#">Disabled</a>
       </li> -->
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control mr-sm-2" type="search" placeholder="Szukaj" aria-label="Szukaj">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Szukaj</button>
             </form>
         </div>
     </nav>

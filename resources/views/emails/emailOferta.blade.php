@@ -2,15 +2,18 @@
 # Witam Serdecznie
 
 Tekst trala la la....
+@foreach ($emailData as $item) 
 
 Oferta....<br />
-Ilość modułów: {{$data->iloscModulow}}<br /> 
-Sprzęt: {{$data->firma}}<br /> 
-Moc: {{$data->moc}}<br />
-Cena Brutto: {{$data->cenaBrutto}} zł
+Nazwa klienta: {{$item->nazwa}}<br /> 
+Ilość modułów: {{$item->iloscModulow}}<br /> 
+Sprzęt: {{$item->firma}}<br /> 
+Moc: {{$item->moc}}<br />
+Cena Brutto: {{$item->cenaBrutto}} zł
 
 Tekst....
 
+@endforeach
 
 <!-- @component('mail::button', ['url' => ''])
 Button Text

@@ -11,6 +11,7 @@ use App\Models\Kalkulator;
 use App\Models\Cennik;
 use App\Models\Client;
 use App\Models\Oferta;
+use App\Models\Foto_oferta_email;
 
 use App\Mail\OfertaMail;
 use Illuminate\Support\Facades\Mail;
@@ -85,7 +86,31 @@ class OfertaController extends Controller
         // $data->id;
         Session::flash('sendMail', 'Email Wysłany');
 
-        return redirect('/klient/'.$req->id_client);
+        return redirect('/klient/'.$req->id_client.'?page=foto');
 
     }
+
+    function fotoOfertaMail($id) {
+
+        $emailData = Oferta::join('clients', 'clients.id', '=', 'ofertas.id_client')
+        ->where('ofertas.id', '=', $id)
+        ->select('ofertas.id', 'ofertas.iloscModulow', 'ofertas.firma', 'ofertas.dach', 'ofertas.moc', 'ofertas.cenaNetto', 'ofertas.vat', 'ofertas.cenaBrutto', 'ofertas.email', 'ofertas.id_client', 'clients.nazwa', 'clients.miejscowosc')
+        ->get();
+
+        foreach ($emailData as $item) {
+            Mail:: to($item->email)->send(new OfertaMail($emailData));
+        }
+        
+        $fotoOfertaEmail = new Foto_oferta_email;
+        $fotoOfertaEmail->id_foto_oferta = $item->id;
+        $fotoOfertaEmail->wyslane = 1;
+        $fotoOfertaEmail->user = Auth::user()->id;
+        $fotoOfertaEmail->save();
+        
+        Session::flash('sendMail', 'Email Wysłany');
+
+        return redirect('/klient/'.$item->id_client.'?page=foto');
+
+    }
+
 }

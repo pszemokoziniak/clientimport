@@ -4,7 +4,7 @@
     vertical-align: middle;
     position:relative;
     box-shadow: 0 0 1px rgba(0,0,0,0);
-    tranform: translateZ(0);
+    transform: translateZ(0);
     transition-duration: .3s;
     transition-property:transform;
   }
@@ -73,3 +73,47 @@
     animation-duration: 2s;
   }
   
+  .border_client {
+    border-radius: 25px;
+    border: 2px solid #73AD21;
+    padding: 20px; 
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  #klient_rozmowy {
+    display: none;
+  }
+  #klient_foto {
+    display: none;
+  }
+  #klient_prad {
+    display: none;
+  }
+  #call-btn {
+    cursor: pointer;
+  }
+  #call-iframe {
+    display: none;
+  }
+  .oferta-btn {
+    display: none;
+  }
+  #table_my tr {
+    /* cursor: pointer; */
+    font-size: small;
+  }
+  #commentPrad {
+    display: none;
+  }
+  #comment {
+    display: none;
+  }
+  #oferta {
+    display: none;
+  }
+  #faktura {
+    display: none;
+  }
+  #umowa {
+    display: none;
+  }

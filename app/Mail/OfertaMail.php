@@ -19,9 +19,9 @@ class OfertaMail extends Mailable
      *
      * @return void
      */
-    public function __construct($data)
+    public function __construct($emailData)
     {
-        $this->data = $data;
+        $this->emailData = $emailData;
         $this->name = Auth::user()->name;
     }
 
@@ -34,11 +34,11 @@ class OfertaMail extends Mailable
 
     public function build()
     {
-        return $this->from('hello@hello.pl', 'Enerji')
+        return $this->from(Auth::user()->email, 'Enerji sp. z o.o.')
         ->subject('Oferta Instalacji Fotowoltaicznej')
         ->replyTo(Auth::user()->email, Auth::user()->name)
         ->markdown('emails.emailOferta')
-        ->with('data', $this->data)
+        ->with('emailData', $this->emailData)
         ->with('name', $this->name);
     }
 }
