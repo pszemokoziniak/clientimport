@@ -32,16 +32,16 @@
 
             <!-- <hr class="my-4"> -->
             <div class="col-md form-group row">
-                <div class="col">
+                <div class="col-5">
                     <label for="nazwa" class="lead">Nazwa</label>
-                    <input class="w-100 form-control" type="text" name="nazwa" value="{{ old('nazwa') }}" placeholder="wymagane">
+                    <input class="w-100 form-control" type="text" id="nazwa" name="nazwa" value="{{ old('nazwa') }}" placeholder="wymagane">
                     @error('nazwa')
                     <div class="alert-danger">{{$message}}</div>
                     @enderror
                 </div>
-                <div class="col">
-                    <label for="nip" class="lead">NIP</label>
-                    <input class="w-50 form-control" type="text" name="nip" value="{{ old('nip') }}">
+                <div class="col-4">
+                    <label for="nip" class="lead">NIP</label><i class="fas fa-plus-square fa-2x ml-2 float-right" id="nip_btn" style="color:red; cursor:pointer;"></i>
+                    <input class="w-40 form-control" type="text" id="nip" name="nip" value="{{ old('nip') }}">
                     @error('nip')
                     <div class="alert-danger">{{$message}}</div>
                     @enderror
@@ -50,7 +50,7 @@
 
             <div class="col-md form-group">
                 <label for="adresmiasto" class="lead">Adres</label>
-                <input class="w-100 form-control" type="text" name="adresmiasto" value="{{ old('adresmiasto') }}">
+                <input class="w-100 form-control" id="adresmiasto" type="text" name="adresmiasto" value="{{ old('adresmiasto') }}">
                 @error('adresmiasto')
                 <div class="alert-danger">{{$message}}</div>
                 @enderror
@@ -60,7 +60,7 @@
             <div class="col-md form-group row">
                 <div class="col">
                     <label for="miejscowosc" class="lead">Miejscowość</label>
-                    <input class="w-100 form-control" type="text" name="miejscowosc" value="{{ old('miejscowosc') }}">
+                    <input class="w-100 form-control" type="text" id="miejscowosc" name="miejscowosc" value="{{ old('miejscowosc') }}">
                     @error('miejscowosc')
                     <div class="alert-danger">{{$message}}</div>
                     @enderror
@@ -68,7 +68,7 @@
 
                 <div class="col">
                     <label for="kodpocztowy" class="lead">Kod Pocztowy</label>
-                    <input class="w-50 form-control" type="text" name="kodpocztowy" value="{{ old('kodpocztowy') }}">
+                    <input class="w-50 form-control" type="text" id="kodpocztowy" name="kodpocztowy" value="{{ old('kodpocztowy') }}">
                     @error('kodpocztowy')
                     <div class="alert-danger">{{$message}}</div>
                     @enderror
@@ -199,6 +199,33 @@ $(document).ready(function() {
     $("#nrtelefonu").change(function() {
         $("#nrtelefonu").val($("#nrtelefonu").val().replace(/\s/g, ""));
     });
+    $("#nip_btn").click(function() {
+        event.preventDefault();
+        const nip = $("#nip").val();
+        const options = {
+            method: 'post',
+            url: '/gustest/post',
+            data: {
+                nip: nip
+            }
+        }
+        axios(options)
+        .then(function (response) {
+        // handle success
+        $('#nazwa').val(response.data[0]);
+        $('#miejscowosc').val(response.data[1]);
+        $('#adresmiasto').val(response.data[2]+' '+response.data[3]+' '+response.data[4]);
+        $('#kodpocztowy').val(response.data[5]);
+
+
+        console.log(response);
+        })
+        .catch(function (error) {
+            // handle error
+            console.log(error);
+        });
+    });
+
 
 
 });

@@ -140,6 +140,10 @@ Route::post('klient', [ClientController::class, 'updateKlient'])->middleware('au
 Route::get('/klientForm', [ClientController::class, 'formKlient'])->middleware('auth');
 Route::post('/klientForm', [ClientController::class, 'insertKlient'])->middleware('auth');
 
+Route::get('/gustest', [ClientController::class, 'testGus'])->middleware('auth');
+Route::post('/gustest/post', [ClientController::class, 'testGus'])->middleware('auth');
+
+
 Route::get('/pradFakturaForm/{id}', [PradController::class, 'formFaktura'])->middleware('auth');
 Route::post('/pradFakturaForm', [PradController::class, 'insertFaktura'])->middleware('auth');
 Route::get('/pradFakturaEdit/{id}', [PradController::class, 'editFaktura'])->middleware('auth');

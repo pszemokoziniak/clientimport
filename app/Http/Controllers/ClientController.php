@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Http\Controllers;
 
 use App\Models\Client;
@@ -30,6 +31,13 @@ use DateTime;
 use Illuminate\Support\Facades\Session;
 
 use SoapClient;
+
+use DateTimeImmutable;
+use GusApi\Exception\InvalidUserKeyException;
+use GusApi\Exception\NotFoundException;
+use GusApi\GusApi;
+use GusApi\ReportTypes;
+use GusApi\BulkReportTypes;
 
 
 
@@ -246,9 +254,51 @@ class ClientController extends Controller
         $pradkampania = Client_kampania::all();
         $clientbranza = Client_branza::all();
 
-
         return view('clientForm', compact('statuses', 'users', 'sourceclients', 'pradkampania', 'clientbranza'));
     }
+
+    function testGus(Request $req) {   
+        
+    $gus = new GusApi('a8168abb80eb4cf2a16b');
+    //for development server use:
+    try {
+        $nipToCheck = $req->input('nip'); //change to valid nip value
+        $gus->login();
+
+        $gusReports = $gus->getByNip($nipToCheck);
+
+        // var_dump($gus->dataStatus());
+        // var_dump($gus->getBulkReport(
+        //     new DateTimeImmutable('2019-05-31'),
+        //     BulkReportTypes::REPORT_UPDATED_LEGAL_ENTITY_AND_NATURAL_PERSON ));
+        
+        $gusArr = array();
+
+        foreach ($gusReports as $gusReport) {
+            //you can change report type to other one
+            $reportType = ReportTypes::REPORT_PERSON;
+            // echo $gusReport->getName();
+            // echo $gusReport->getCity();
+            // echo 'Address: '. $gusReport->getStreet(). ' ' . $gusReport->getPropertyNumber() . '/' . $gusReport->getApartmentNumber();
+            // $fullReport = $gus->getFullReport($gusReport, $reportType);
+            // var_dump($fullReport);
+            array_push($gusArr, $gusReport->getName());
+            array_push($gusArr, $gusReport->getCity());
+            array_push($gusArr, $gusReport->getStreet());
+            array_push($gusArr, $gusReport->getPropertyNumber());
+            array_push($gusArr, $gusReport->getApartmentNumber());
+            array_push($gusArr, $gusReport->getZipCode());
+            return $gusArr;
+        }
+
+    } catch (InvalidUserKeyException $e) {
+        echo 'Bad user key';
+    } catch (NotFoundException $e) {
+        echo 'No data found <br>';
+        echo 'For more information read server message below: <br>';
+        echo $gus->getResultSearchMessage();
+    }
+}
 
 
     function insertKlient(ShareFormRequest $req) {
