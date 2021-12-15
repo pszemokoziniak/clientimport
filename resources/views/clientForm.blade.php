@@ -201,7 +201,8 @@ $(document).ready(function() {
     });
     $("#nip_btn").click(function() {
         event.preventDefault();
-        const nip = $("#nip").val();
+        if (#nip)
+        let nip = parseInt($("#nip").val().replace(/[^0-9]/gi, ''));
         const options = {
             method: 'post',
             url: '/gustest/post',

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientAllController;
 use App\Http\Controllers\StatusController;
@@ -23,7 +24,9 @@ use App\Http\Controllers\FtpController;
 use App\Http\Controllers\PradBackUmowaController; 
 use App\Http\Controllers\LogUserController; 
 use App\Http\Controllers\FotoOfertaEmailController; 
-use App\Http\Controllers\ClientBranzaController; 
+use App\Http\Controllers\ClientBranzaController;
+use App\Http\Controllers\Auth\MailRegistrationController; 
+
 
 use App\Mail\OfertaMail;
 use Illuminate\Support\Facades\Mail;
@@ -200,6 +203,8 @@ Route::post('/pradsave', [StatusPradController::class, 'updateStatus'])->middlew
 Route::get('/log', [LogUserController::class, 'log_list'])->middleware('auth');
 
 Route::get('/fotoOfertaMail/{id}', [OfertaController::class, 'fotoOfertaMail'])->middleware('auth');
+
+Route::post('/email/registration', [MailRegistrationController::class, 'RegistrationMail'])->middleware('auth');
 
 
 // Route::get('/email', function () {

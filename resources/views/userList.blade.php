@@ -31,6 +31,52 @@
             @endforeach
         </tbody>
     </table>
-    <button onclick="location.href='{{ route('register') }}'" class="btn btn-primary float-right">Dodaj użytkownika</button>
+    <!-- <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a> -->
+    <div class="container">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">{{ __('Dashboard') }}</div>
+                    <div class="card-body">
+                        <!-- <form action="" method="post" > -->
+                            <div class="row">
+                                <div class="col-6">
+                                    <input type="text" id="email" name="email" class="form-control input-lg" placeholder="Wpisz mail dodawanego użytkownika">
+                                </div>
+                                <div class="col-3">
+                                    <button class="btn btn-primary float-right" id="register-btn">Dodaj użytkownika</button>
+                                </div>
+                            </div>
+                        <!-- </form> -->
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
 </div>
+<script>
+$(document).ready(function() {
+
+    $("#register-btn").click(function() {
+    
+    const email = $('#email').val();
+        const options = {
+            method: 'post',
+            url: '/email/registration',
+            data: {
+                email: email
+            }
+        }
+        axios(options)
+        .then(function (response) {
+            //handle success
+            console.log(response);
+        })
+        .catch(function (response) {
+            //handle error
+            console.log(response);
+        });
+    });
+});
+
+</script>
 @endsection
