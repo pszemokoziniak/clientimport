@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 
-
 class UsersController extends Controller
 {
     function index() {
@@ -41,6 +40,13 @@ class UsersController extends Controller
         $data->aktywny=$req->aktywny;
         $data->save();
         return redirect('userList');
+    }
+    function UserOffline(Request $request) {
+        $data = User::find($request['id']);
+        $data->admin_level = $request['on'];
+        $data->save();
+        // info($request);
+        return 'test';
     }
 
 }

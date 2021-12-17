@@ -2,16 +2,21 @@
 
 @section('content')
 <div class="container">
-<input type="hidden" name="token" value="{{ app('request')->input('token') }}">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">{{ __('Rejestracja') }}</div>
+                @if($status===0)
+                <div class="alert alert-danger" role="alert">
+                    Token nie właściwy, rejestracja niemożliwa
+                </div>
+                @endif
 
                 <div class="card-body">
+                    @if ($status===1)
+
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
-
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nazwa') }}</label>
 
@@ -61,7 +66,7 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
-
+                        
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -70,6 +75,7 @@
                             </div>
                         </div>
                     </form>
+                    @endif
                 </div>
             </div>
         </div>

@@ -205,6 +205,7 @@ Route::get('/log', [LogUserController::class, 'log_list'])->middleware('auth');
 Route::get('/fotoOfertaMail/{id}', [OfertaController::class, 'fotoOfertaMail'])->middleware('auth');
 
 Route::post('/email/registration', [MailRegistrationController::class, 'RegistrationMail'])->middleware('auth');
+Route::post('/user/allow', [UsersController::class, 'UserOffline'])->middleware('auth');
 
 
 // Route::get('/email', function () {
