@@ -5,12 +5,14 @@
 
 <div class="container">
     <div class="row">
+        @role('admin')
         <div class="col-2">Użytkownik</div>
         <div class="col-2">Email</div>
         <div class="col-2">Telefon</div>
         <div class="col-2">Status</div>
         <div class="col-2">Uprawnienia</div>
         <div class="col-2">Akcja</div>
+        @endrole
     </div>
     @foreach($data as $item)
     <div class="row">

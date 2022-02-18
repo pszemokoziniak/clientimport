@@ -71,7 +71,7 @@ class ClientController extends Controller
         ORDER BY clients.kontakt_data ASC
         ');
         $data = json_decode(json_encode($data),true);
-        return view('clientList',["data"=>$data]);
+        return view('clientList', compact('data'));
     }
 
     function listOutstanding() {

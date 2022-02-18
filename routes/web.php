@@ -126,6 +126,7 @@ Route::post('/statusOfertaPradEdit', [StatusPradController::class, 'update']);
 Route::get('/statusOfertaPradDelete/{id}', [StatusPradController::class, 'delete']);
 
 Route::get('/', [ClientController::class, 'list'])->middleware('auth');
+
 Route::get('/klienciAktywni', [ClientController::class, 'listOutstanding'])->middleware('auth');
 Route::get('/klienciNieAktywni', [ClientController::class, 'listNonActive'])->middleware('auth');
 
