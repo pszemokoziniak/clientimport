@@ -26,6 +26,7 @@ use App\Http\Controllers\LogUserController;
 use App\Http\Controllers\FotoOfertaEmailController; 
 use App\Http\Controllers\ClientBranzaController;
 use App\Http\Controllers\Auth\MailRegistrationController; 
+use App\Http\Controllers\TodoController; 
 
 
 use App\Mail\OfertaMail;
@@ -50,6 +51,18 @@ use Spatie\GoogleCalendar\Event;
 // });
 
 Auth::routes();
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::prefix('zadania')->group(function () {
+        Route::get('/', [TodoController::class, 'index'])->name('zadania');
+        Route::get('/edit/{id}', [TodoController::class, 'edit'])->name('zadania-edit');
+        Route::get('/form', [TodoController::class, 'create'])->name('zadania-form');
+        Route::post('/form', [TodoController::class, 'store'])->name('zadania-store');
+
+
+    });
+});
+
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/import-form', [ClientController::class, 'importForm'])->middleware('auth');
